@@ -1,0 +1,424 @@
+/*----------------------------------------------------------*
+*                                                           *
+*     Stylesheet für Portfolio Linda                        *
+*     Start September 2022                                  *
+*     Datei: style.css                                      *
+*                                                           *
+*-----------------------------------------------------------*
+*                                                           *
+*      FARBEN                                               *
+*      --------------------                                 *
+*      Dunkelblau: color: #121f4f;                          *
+*      Planet: #efebe6                                      *
+*      HG-Verlauf: #d7cfcc #fff                             *
+*      Gelb: #fcec98                                        *
+*      Links: #707070                                       *
+*      Footer: #d3d1cd                                      *
+*      Footer-Verlauf: #ffffff00 #b3b2b2                    *
+*      Textfarbe allgemein: #343434                         *
+*                                                           *
+
+*      SCHRIFT                                              *
+*      --------------------                                 *
+*      H1,H2                                                *
+*    font-family: 'IBM Plex Sans', 'Open Sans', sans-serif; *
+*      p                                                    *
+*  font: 400 0.96em/1.5em 'Jost', 'Open Sans', sans-serif;  *
+*                                                           *
+------------------------------------------------------------*/
+
+/*ANCHOR Schrifteinbindung*/
+
+@font-face {
+  font-family: 'Jost';
+  src: url("../fonts/Jost-VariableFont_wght.ttf");
+  font-family: 'IBMPlexSans';
+  src: url("../fonts/IBMPlexSans-ExtraLight.ttf");
+  src: url("../fonts/IBMPlexSans-Light.ttf");
+  src: url("../fonts/IBMPlexSans-Medium.ttf");
+  src: url("../fonts/IBMPlexSans-Regular.ttf");
+  src: url("../fonts/IBMPlexSans-SemiBold.ttf");
+  src: url("../fonts/IBMPlexSans-Thin.ttf");
+  src: url("../fonts/IBMPlexSans-Bold.ttf");
+}
+
+
+
+/*ANCHOR ALLGEMEIN 
+-----------------------------------------------*/
+
+/*ganze Website sanft scrollen*/
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0px;
+  background: linear-gradient(#d7cfcc, #fff);
+  background-size: 20em;
+  animation: fade 5s linear infinite alternate;
+}
+
+/*****ANCHOR MEDIA QUERIES ALLGEMEIN******/
+
+/* ANCHOR min-width: 950px*/
+@media only screen and (min-width: 950px) {
+
+  #navi-line,
+  .footerbox,
+  section {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  .footerbox {
+    padding: 0 0 0 10px;
+  }
+
+  nav {
+    position: relative;
+    border-top: 5px solid #121f4f;
+    border-bottom: 5px solid #121f4f;
+  }
+
+  .menubutton {
+    display: none;
+  }
+
+  nav li {
+    display: inline;
+    margin: 0px 10px 0px 0px;
+  }
+
+  /* Aktuell aktiver Navi-Link */
+  #now {
+    text-decoration: overline;
+    text-decoration-color: #fcec98;
+  }
+
+  #navi-line {
+    font-size: 1.2em;
+    font-weight: 300;
+    padding: 0px 10px;
+  }
+
+  .dropdown {
+    left: -30%;
+  }
+
+  .gallery-layout {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-gap: 0;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    margin: 0 0 100px 0;
+  }
+}
+
+/* ANCHOR min-width: 750px und max 949px*/
+@media only screen and (min-width: 750px) and (max-width: 949px) {
+
+  #navi-line,
+  .footerbox,
+  section {
+    margin: 0px 40px;
+  }
+
+  nav {
+    position: relative;
+    border-top: 5px solid #121f4f;
+    border-bottom: 5px solid #121f4f;
+  }
+
+  .menubutton {
+    display: none;
+  }
+
+  nav li {
+    display: inline;
+  }
+
+  #navi-line {
+    font-size: 1.2em;
+    font-weight: 300;
+    padding: 0px;
+  }
+
+  .dropdown {
+    left: -30%;
+  }
+
+  .gallery-layout {
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-gap: 0;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    margin: 0 0 100px 0;
+  }
+}
+
+/* ANCHOR max-width: 749px*/
+@media only screen and (max-width: 749px) {
+
+  #navi-line,
+  .footerbox,
+  section {
+    margin: 0px 20px;
+  }
+
+  #wrapper {
+    max-width: 100%;
+  }
+
+  /* Aktuell aktiver Navi-Link */
+  #now {
+    text-decoration: overline;
+    text-decoration-color: #fcec98;
+  }
+
+  nav {
+    position: relative;
+    border: 0px;
+  }
+
+  #navi-line {
+    display: none;
+    margin: 0px 0px 0px 20px;
+  }
+
+  #navi-line a,
+  #now {
+    color: #121f4f;
+    font-size: 1em;
+    font-weight: 400;
+  }
+
+  /*Hamburger Symbol*/
+  .menubutton img {
+    margin: 20px 0px 0px 20px;
+  }
+
+  .footerbox {
+    padding: 40px 0px;
+  }
+
+  .gallery-layout {
+    column-count: 1;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-gap: 0;
+    -webkit-column-gap: 0;
+    -moz-column-gap: 0;
+    margin: 0 0 100px 0;
+  }
+}
+
+
+
+/*ANCHOR SCHRIFT-FORMATIERUNG
+-----------------------------------------------*/
+
+h1 {
+  text-transform: uppercase;
+  color: #121f4f;
+  font: 200 3.5em 'IBM Plex Sans', 'Open Sans', sans-serif;
+}
+
+h2 {
+  color: #121f4f;
+  text-transform: uppercase;
+  font: 300 2.5em/0.5em 'IBM Plex Sans', 'Open Sans', sans-serif;
+  margin: 23px 0 20px -3px;
+}
+
+p,
+#wrapper {
+  font: 400 0.96em/1.5em 'Jost', 'Open Sans', sans-serif;
+  color: #343434;
+}
+
+footer {
+  font: 400 0.96em/1.5em 'Jost', 'Open Sans', sans-serif;
+}
+
+#navi-line ul li {
+  font-family: 'IBM Plex Sans', 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  margin: 5px 10px 5px 0px;
+}
+
+
+/******ANCHOR LISTEN*******/
+ul {
+  list-style: none;
+  margin: 10px 0px;
+  padding: 0px;
+}
+
+/******ANCHOR LINKS*******/
+a:link,
+a:visited {
+  color: #000000;
+  text-decoration: none;
+}
+
+footer a:link,
+footer a:visited {
+  color: #343434;
+  text-decoration: none;
+}
+
+#navi-line a:hover,
+#navi-line a:focus {
+  text-decoration: overline;
+  text-decoration-color: #fcec98;
+}
+
+a:hover,
+a:focus,
+footer a:hover,
+footer a:focus {
+  text-decoration: underline;
+  text-decoration-color: #fcec98;
+}
+
+/****ANCHOR NAVIGATION****/
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background: #d7cfcc;
+  z-index: 2;
+}
+
+.dropdown li {
+  display: list-item;
+  float: left;
+  position: relative;
+  min-width: 190px;
+}
+
+.dropdown li a {
+  background: transparent;
+  color: #555;
+  padding: 1rem 2rem;
+}
+
+.drop {
+  position: relative;
+}
+
+.arrow {
+  border: solid;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 2px;
+  margin: 0 0 4px 6px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+/*********** ANCHOR Bilder Gallerie *********************/
+
+.gallery-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+}
+
+.gallery-item img {
+  width: 80%;
+  height: auto;
+  margin: 20px 0 0 0;
+  cursor: pointer;
+  filter: grayscale(0%)
+}
+
+.gallery-item img:hover {
+  outline: 3px solid rgb(255, 255, 255);
+  filter: grayscale(100%);
+  /*transition:  0.15s, filter 0.5s;*/
+  transition-property: outline-width, filter;
+  transition-duration: 0.2s, 2s;
+}
+
+.gallery-item p {
+  font: 400 0.9em/1.5em 'Jost', 'Open Sans', sans-serif;
+  margin: 0 0 20px 0;
+  color: #000;
+}
+
+/*ANCHOR FOOTER
+-----------------------------------------------*/
+
+footer {
+  background-image: linear-gradient(180deg, #ffffff00, #b3b2b2), url(../images/footer-hg2.svg);
+  background-position-x: center;
+  background-repeat: no-repeat;
+  color: #343434;
+}
+
+/*Footerflexbox*/
+.footerbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 40px 0 30px 0;
+}
+
+footer p,
+footer ul {
+  margin: 0px;
+  padding: 20px 0px;
+  color: #000000;
+}
+
+/*Social Media Buttons*/
+.fa-square-xing:before,
+.fa-linkedin:before {
+  font-size: 1.6em;
+  color: #707070;
+}
+
+/****ANCHOR NACH OBEN BUTTON*******/
+
+#jButton {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  z-index: 500;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s, bottom 2.5s;
+  visibility: hidden;
+  --content: url(../images/Rakete-pfeil2.svg);
+}
+
+#jButton:hover {
+  cursor: pointer;
+  content: url(../images/Rakete-pfeil3.svg);
+}
+
+#jButton::after {
+  content: var(--content);
+}
+
+/*ANCHOR SVG
+-----------------------------------------------*/
+
+[ name=mars] {
+  position: absolute;
+  z-index: -2;
+  opacity: 0.5;
+  margin: -5% 0% 0% 0%;
+}

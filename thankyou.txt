@@ -1,0 +1,3 @@
+  <p>Vielen Dank!</p>
+  <p>Ihre Anfrage wurde versendet. Ich melde mich schnellstmöglich zurück.</p>
+  <lottie-player src="images/space-mail-2.json" background="transparent"  speed="1"  style="margin-top: -70px;width:30%;height:auto;margin-left: auto;margin-right: auto;" loop autoplay></lottie-player>
