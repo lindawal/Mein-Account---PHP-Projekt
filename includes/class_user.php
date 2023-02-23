@@ -9,7 +9,9 @@ class User
   public $username;
   public $mail;
 
-  function __construct(public $id) {}
+  function __construct(public $id)
+  {
+  }
 
   function load_data()
   {
@@ -98,11 +100,10 @@ class View extends User
       . $this->mail . "'>
       <input type='hidden' name='id' value='"
       . $this->id . "'>
-   <div>
-      <input type='submit' name='safe_changes' value='speichern' class='changeBtn'>
-      <input type='reset'>
+      <input type='reset' class='change_user_Btn'>
+      <input type='submit' name='safe_changes' value='speichern' class='change_user_Btn'>
+    
       <input type='submit' name='confirm_del_user' value='Account löschen' class='changeBtn'>
-      </div>
       </form>";
   }
 
@@ -110,23 +111,23 @@ class View extends User
   {
     echo "Soll der Account wirklich gelöscht werden?<br>
     <table>
-    <tr><td>Nachname<td>
+    <tr><td>Nachname</td>
     <td>" . $this->lastname . "</td></tr>
-     <tr><td>Vorname<td>
+     <tr><td>Vorname</td>
      <td>" . $this->firstname . "</td></tr>
-     <tr><td>Username<td>
+     <tr><td>Username</td>
      <td>" . $this->username . "</td></tr>
-     <tr><td>E-Mail<td>
+     <tr><td>E-Mail</td>
      <td>" . $this->mail . "</td></tr>
      <tr><td>
      <form method = 'post' class='userdataform'>
      <input type='hidden' name='id' value='"
       . $this->id . "'>
       <button type='submit' name='cancel' value='"
-      . $this->id . "' class='sort_button'>abbrechen</button>
+      . $this->id . "' class='change_user_Btn'>abbrechen</button>
     </td><td>
       <button type='submit' name='del_user' value='"
-      . $this->id . "' class='sort_button'>Account löschen</button></form>
+      . $this->id . "' class='change_user_Btn'>Account löschen</button></form>
       </td></tr>
      </table>";
   }

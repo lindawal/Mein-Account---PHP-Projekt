@@ -6,7 +6,7 @@ include("./includes/header.inc.php");
 <script>
   //beim Klick der Radiobuttons zum Sortieren der Suchergebnisse soll sofort die Neusortierung ausgelöst werden
   function validateRadio() {
-    document.getElementById("myForm").submit();
+    document.getElementById('myForm').submit();
   };
   //beim Klick des Resetbuttons soll die Seite ohne die Search- & Sort-Parameter neu geladen werden
   function resetPage() {
@@ -64,9 +64,7 @@ if (!isset($_GET['page'])) {
   }
 
   //Formular zum Angeben der Suchparameter
-  echo "
-  <div>
-  <form action='index.php' method='get' id='myForm'>
+  echo "<form action='index.php' method='get' class='myForm'>
     <input type='radio' name='searchArea' value='lastname'> Nachname
     <input type='radio' name='searchArea' value='firstname'> Vorname
     <input type='radio' name='searchArea' value='username'> Username
@@ -74,44 +72,43 @@ if (!isset($_GET['page'])) {
     Suche: <input name='search' value='" . $search_input . "'>
     <input type='submit' class='sort_button'>
     <input type='button' onClick='resetPage();' value='reset' class='sort_button'>
-   </div>
   <hr>" .
     // Radiobuttons für die Sortierung
     // Wenn diese angeklickt werden, wird die Änderung mit Hilfe eines Javascript onClick Events sofort ausgelöst
     // werden mit Hilfe einer If-Anweisung auf "checked" gesetzt
-    "<table>
-  <tr>
-      <td><h3>Nachname</h3><input type='radio' name='sort' value='lastname' onClick='validateRadio();'";
+    "<div class='all-users'>
+ <div><h3>Nachname</h3><input type='radio' name='sort' value='lastname' onClick='validateRadio();'";
   if ($sort == "lastname") {
     echo " checked='checked'";
   }
-  echo ">
-      </td>
-      <td>
+  echo "
+  </div>
+  <div>
         <h3>Vorname</h3><input type='radio' name='sort' value='firstname' onClick='validateRadio();'";
   if ($sort == "firstname") {
     echo " checked='checked'";
   }
   echo ">
-      </td>
-      <td>
+      </div>
+      <div>
         <h3>Username</h3><input type='radio' name='sort' value='username' onClick='validateRadio();'";
   if ($sort == "username") {
     echo " checked='checked'";
   }
   echo ">
-      </td>
-      <td>
+      </div>
+      
         <h3>E-Mail</h3><input type='radio' name='sort' value='mail' onClick='validateRadio();'";
   if ($sort == "mail") {
     echo " checked='checked'";
   }
   echo ">
 
-      </td>
-      <td></td>
-    </form>
-  </tr>
+      </div>
+      <div></div>
+   </div> 
+   </form>
+  <div class='all-users'>
   ";
 
   //Datei einbinden um Daten aus der Datenbank zu laden ->

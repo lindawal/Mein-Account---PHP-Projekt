@@ -22,7 +22,7 @@ function load_users_db(
 
 
   $con = new mysqli("", "root", "", $dbname);
-  $sql = ("SELECT id, lastname, firstname, username, mail FROM $tabname WHERE $searchArea_input LIKE ? ORDER BY $sort");
+  $sql = ("SELECT id, lastname, firstname, username, mail FROM $tabname WHERE $searchArea_input LIKE ?  ORDER BY $sort");
 
   $ps = $con->prepare($sql);
   $such_txt = "%" . $search_input . "%";
@@ -37,21 +37,20 @@ function load_users_db(
     echo "Keine Ergebnisse<br>";
  
   while ($ps->fetch()) {
-    echo "<tr>"
-     . "<td>" . $lastname . "</td>
-     <td>" . $firstname . "</td>
-     <td>" . $username . "</td>
-     <td>" . $mail . "</td>
-     <td>
+    echo "<div class='user-data-box'>
+     <p>" . $firstname . " " . $lastname . "</p>
+     <p>" . $username . "</p>
+     <p>" . $mail . "</p>
      <form action='";
      echo linkTo("index.php?page=change_user");
-     echo "'method='post' id='myForm'>
+     echo "' method='post' class='myForm'>
      <input type='hidden' name='id' value='"
       . $id . "'>
-     <button type='submit' name='change' class='sort_button'>ändern</button></form></td>"
-     . "</tr>";
+     <button type='submit' name='change' class='sort_button'>ändern</button>
+     </form>
+     </div>
+     ";
     }
-  echo "</table>";
 $ps->close();
   $con->close();
 

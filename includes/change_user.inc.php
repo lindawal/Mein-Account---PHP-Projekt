@@ -3,7 +3,7 @@
 include_once("./includes/dyn_Weiterleitung.inc.php");
 include_once("./includes/class_user.php");
 
-echo "<h2>Nutzerdaten ändern</h2><hr><br>";
+echo "<div class='user-section-header'><h2>Nutzerdaten ändern</h2></div>";
 
 $id = $_POST["id"];
 $cur_user = new User($id);
@@ -44,9 +44,9 @@ if ((isset($_POST["change"])) || (isset($_POST["cancel"]))) {
 
 
 //zurück Button
-echo "<button type='button' name='back' class='sort_button'><a href='";
+echo "<br><a href='";
 linkTo("index.php");
-echo "'>zurück</a></button><br>";
+echo "'>zurück</a>";
 
 
 
