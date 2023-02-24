@@ -84,9 +84,6 @@ class User
 class View extends User
 {
 
-  //parent::__construct();
-//parent::data();
-
   function show_as_formular()
   {
     echo "<form method = 'post' class='userdataform'>
