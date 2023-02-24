@@ -1,7 +1,8 @@
 <!-- Footer Template -->
 </div>
-</div>
 </main>
+</div>
+
 <!--Fußbereich-->
 <footer>
   <!--Flexbox-->

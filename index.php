@@ -76,27 +76,24 @@ if (!isset($_GET['page'])) {
     // Radiobuttons für die Sortierung
     // Wenn diese angeklickt werden, wird die Änderung mit Hilfe eines Javascript onClick Events sofort ausgelöst
     // werden mit Hilfe einer If-Anweisung auf "checked" gesetzt
-    "<div class='all-users'>
- <div><h3>Nachname</h3><input type='radio' name='sort' value='lastname' onClick='validateRadio();'";
-  if ($sort == "lastname") {
-    echo " checked='checked'";
-  }
-  echo "
-  </div>
-  <div>
-        <h3>Vorname</h3><input type='radio' name='sort' value='firstname' onClick='validateRadio();'";
-  if ($sort == "firstname") {
-    echo " checked='checked'";
-  }
-  echo ">
-      </div>
-      <div>
-        <h3>Username</h3><input type='radio' name='sort' value='username' onClick='validateRadio();'";
+    "<label for='sort'>Sortierung:</label>
+    <select id='sort' name='sort' onchange='this.form.submit()'>
+    <option value='lastname'";
+  // if ($sort == "lastname") {
+  //   echo " checked='checked'";
+  // }
+  echo ">vorname </option>
+         <option value='firstname'";
+  // if ($sort == "firstname") {
+  //   echo " checked='checked'";
+  // }
+  echo ">nachname </option></select>
+      
+        Username <input type='radio' name='sort' value='username' onClick='validateRadio();'";
   if ($sort == "username") {
     echo " checked='checked'";
   }
   echo ">
-      </div>
       
         <h3>E-Mail</h3><input type='radio' name='sort' value='mail' onClick='validateRadio();'";
   if ($sort == "mail") {
@@ -104,9 +101,7 @@ if (!isset($_GET['page'])) {
   }
   echo ">
 
-      </div>
-      <div></div>
-   </div> 
+      
    </form>
   <div class='all-users'>
   ";
