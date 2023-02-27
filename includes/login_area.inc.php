@@ -1,23 +1,17 @@
-<?php
-/* Session-Start oder Session-Wiederaufnahme */
-session_start();
 
-//Header einbinden
-include("./includes/header.inc.php");
-?>
 
-<div class="login_area">
   <?php
-  echo "<h1>Login</h1><hr><br>";
+
+  echo "<h1>Login</h1><hr><br>".
+  "<div class='login_area'>"
+  ."<img src='./images/flamingos.jpg'>";
 
 /***
 Login-Formular anzeigen
 ***/
 
   if (!isset($_SESSION["name"])) { //wenn noch kein Session Name gesetzt ist (und somit noch kein Login statt fand) soll die Login Maske angezeigt werden
-   if (isset($_GET['page'])) {
-    if ($_GET['page'] == 'login_area'){
-    echo "<form action='' method='POST'>
+   echo "<div class='login_card'><form action='' method='POST'>
         <input placeholder='Benutzername' name='username'>
         <input type='password' placeholder='Passwort' name='passwort'>
         <input type='Submit' value='Login' >
@@ -45,25 +39,20 @@ Login-Daten prüfen
 zum Benutzer-Account weiterleiten oder Fehlermeldung anzeigen
 ***/
 
-        include_once("./includes/dyn_Weiterleitung.inc.php");
-        weiterleiten("user_area.php");
+        //include_once("./includes/dyn_Weiterleitung.inc.php");
+        weiterleiten("index.php");
       } else {
         echo "Der eingegebene Username oder das Passwort war nicht korrekt."; //Fehlermeldung, wenn Passwort inkorrekt
       }
     }
-    }
-   }
-  } else { //wenn Sessionname bei Seitenaufruf bereits vorhanden ist, dann direkt zum Benutzer-Account wechseln
-    include_once("./includes/dyn_Weiterleitung.inc.php");
-    weiterleiten("user_area.php");
   }
+  //  else { //wenn Sessionname bei Seitenaufruf bereits vorhanden ist, dann direkt zum Benutzer-Account wechseln
+  //  // include_once("./includes/dyn_Weiterleitung.inc.php");
+  //   weiterleiten("index.php");
+  // }
 
   echo   "<br>Noch keine Zugangsdaten? 
-          <a href='register_area.php'>Zur Registrierung gehts hier entlang...</a></p>";
+          <a href='";
+  echo linkTo("index.php?page=register_area");
+  echo "'>Zur Registrierung gehts hier entlang...</a></p></div>";
   ?>
-</div>
-
-<?php
-//Footer einbinden
-include("./includes/footer.inc.php");
-?>

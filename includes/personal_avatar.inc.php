@@ -8,10 +8,10 @@
  */
 
 
-function personal_avatar($session_lastname = "", $session_firstname = "") //es darf auch ein Parameter leer bleiben = ""
+function personal_avatar($cur_lastname = "", $cur_firstname = "") //es darf auch ein Parameter leer bleiben = ""
 {
-  $lastname = $session_lastname;
-  $firstname = $session_firstname;
+  $lastname = $cur_lastname;
+  $firstname = $cur_firstname;
   $shorty = substr($lastname, 0, 1)  . substr($firstname, 0, 1);
   //$shorty_first = substr($firstname, 0, 1); //Kürzel erstellen: ersten Buchstaben aus jedem Namensteil
   return array($lastname, $firstname, $shorty);

@@ -10,19 +10,19 @@
  * @param string search_input = Suchbegriff aus der Eingabemaske
  */
 
+include_once("./includes/class_user.php");
 
-function load_users_db(
-  $dbname,
-  $tabname,
-  $searchArea_input,
+class All_Users extends User
+{
+
+function load_with_filter(
+  $search_area,
   $sort,
   $search_input
 ) 
 {
-
-
-  $con = new mysqli("", "root", "", $dbname);
-  $sql = ("SELECT id, lastname, firstname, username, mail FROM $tabname WHERE $searchArea_input LIKE ?  ORDER BY $sort");
+  $con = new mysqli("", "root", "", $this->dbname);
+  $sql = ("SELECT id, lastname, firstname, username, mail FROM $this->tabname WHERE $search_area LIKE ?  ORDER BY $sort");
 
   $ps = $con->prepare($sql);
   $such_txt = "%" . $search_input . "%";
@@ -55,7 +55,5 @@ $ps->close();
   $con->close();
 
 }
-
+}
 ?>
-
-<!-- <a href='db_tabelle_filtern.php?page=change_user'>ändern</a> -->
