@@ -1,83 +1,134 @@
 <!-- Header Template -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PHP">
-    <title>PHP Test</title>
-    <link href="./css/admin-style.css" rel="stylesheet">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PHP">
+  <title>PHP Projekt: Mein Account</title>
+  <link href="./css/account-style.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <!-- favicon.ico im Stammverzeichnis, aber nicht verlinkt -->
 
-  <body>
-    <div id="wrapper">
+</head>
 
-      <div class="menubar">
-        <h1>Mein Account</h1>
-        <?PHP
-if (isset($_SESSION["name"])) {
-          /***
-          Infos zum Login anzeigen
-          ***/
-          if (isset($_SESSION["z"])) // Zugriffszähler existiert
-            $_SESSION["z"] = $_SESSION["z"] + 1;
-          else
-            $_SESSION["z"] = 1; //Zugriffszähler ist neu
-          echo "<div> Anzahl Seitenaufrufe: " . $_SESSION["z"] . "<br>";
+<body>
+  <div id="wrapper">
 
-          //array mit regulären Ausdrücken zum Umstellen des mit Now() erzeugten Datums: 
-          //(20)(zahl, 2-stellig)-(zahl, 1-2-stellig)-(zahl, 1-2-stellig)leerzeichen(zahl, 2-stellig):(zahl, 1-2-stellig):(zahl, 1-2-stellig)
-          $date_regex = array(
-            '/(20)(\d{2})-(\d{1,2})-(\d{1,2})\s(\d{2}):(\d{1,2}):(\d{1,2})/'
-          );
-
-          $date_replace = array('\4.\3.\1\2 \5:\6 Uhr'); //array mit Ersatzsymbolen/zeichen: Angabe der nummerierten Ausdrücke, zuerst der 4., dann der 3. etc. der letzte wird weg gelassen, statt dessen "Uhr" eingefügt
-          echo "Login: " . preg_replace($date_regex, $date_replace, $_SESSION["date"]) .
-          "</div>";
+    <div class="menubar">
+      <a href='index.php'>
+        <div class='Logo'>MA</div>
+      </a>
+      <h1>Mein Account</h1>
+      <div class='myname'>
+        <div>
 
 
-          /***
-          Namen und Kürzel anpassen
-          ***/
+          <?PHP
 
-          include_once("./includes/personal_avatar.inc.php"); //Datei mit der Funktion zum Erstellen der Kürzel einbinden
-          $pers_avatar = personal_avatar($_SESSION["firstname"], $_SESSION["lastname"]); //Parameter an die Funktion senden
-          // die return Werte werden mithilfe des Index aus dem Array abgerufen
-          echo "<div class='myname'><div class='avatar'>" . $pers_avatar[2] . "</div>" . $pers_avatar[0] . " " . $pers_avatar[1] .
-            "<form action='logout.php'>
+          if (isset($_SESSION["name"])) {
+            if ($_SESSION["admin"] == false) {
+              /***
+              Infos zum Login anzeigen
+              ***/
+              include_once("./classes/view.class.php");
+              $cur_user_view = new View();
+              //Namen und Avatar anzeigen
+              $avatar = $cur_user_view->avatar($_SESSION["firstname"], $_SESSION["lastname"]);
+              echo "<div><div class='avatar'>" . $avatar . "</div> " . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</div></div>" .
+                "<div><form action='logout.php'>
         <button type='submit' name='logout'>Logout</button>
-        </form></div>";
-}
-?>
+        </form>";
+            }
+            if ($_SESSION["admin"] == true) {
+              /***
+              Infos zum Login anzeigen
+              ***/
+              if (isset($_SESSION["z"])) // Zugriffszähler existiert
+                $_SESSION["z"] = $_SESSION["z"] + 1;
+              else
+                $_SESSION["z"] = 1; //Zugriffszähler ist neu
+              echo "<div class='myname'><div> Anzahl Seitenaufrufe: " . $_SESSION["z"] . "<br>";
+
+              include_once("./classes/view.class.php");
+              $cur_user_view = new View();
+              //Datum formatieren
+              $get_login_date = $cur_user_view->format_date($_SESSION["date"]);
+              echo "Login: " . $get_login_date .
+                "<br>";
+              //Namen und Avatar anzeigen
+              $avatar = $cur_user_view->avatar($_SESSION["firstname"], $_SESSION["lastname"]);
+              echo "<div><div class='avatar'>" . $avatar . "</div> " . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</div></div>" .
+                "<div><form action='logout.php'>
+        <button type='submit' name='logout' class='header_button'>Logout</button>
+        </form></div></div>";
+            }
+          }
+
+
+          ?>
+        </div>
       </div>
-      <div class="main-area">
+    </div>
+    <div class="main-area">
       <?PHP
+
       if (isset($_SESSION["name"])) {
-      echo "
+        if ($_SESSION["admin"] == true) {
+          echo "
         <div class='menu'>
-          <a href='index.php'>
-            <img src='./images/home.svg'>
+          <a href='admin.php'>
+            <img src='./images/home.svg' alt='home'>
             <p class='menu-text'>Start</p>
           </a>
-          <a href='index.php?page=new_user'>
-            <img src='./images/newuser.svg'>
+          <a href='admin.php?page=new_user'>
+            <img src='./images/newuser.svg' alt='neuer Nutzer'>
             <p class='menu-text'>Neuer User</p>
           </a>
-          <a href='index.php'>
-            <img src='./images/kontakte.svg'>
+          <a href='admin.php'>
+            <img src='./images/kontakte.svg' alt='kontakte'>
             <p class='menu-text'>Alle User</p>
           </a>
-          <a href='index.php?page=addcontact'>
-            <img src='./images/fotos.svg'>
+          <a href='admin.php?page=my_data'>
+            <img src='./images/account_circle.svg' alt='Mein Account'>
+            <p class='menu-text'>Mein Account</p>
+          </a>
+          
+          <a href='admin.php'>
+            <img src='./images/fotos.svg' alt='Meine Fotos'>
             <p class='menu-text'>Meine Fotos</p>
           </a>
         </div>";
+        }
+        if ($_SESSION["admin"] == false) {
+          echo "
+        <div class='menu'>
+          <a href='user.php'>
+            <img src='./images/home.svg' alt='home'>
+            <p class='menu-text'>Start</p>
+          </a>
+          <a href='user.php?page=my_data'>
+            <img src='./images/account_circle.svg' alt='Mein Account'>
+            <p class='menu-text'>Mein Account</p>
+          </a>
+          <a href='user.php?page=my_contacts'>
+            <img src='./images/contacts.svg' alt='Meine Kontakte'>
+            <p class='menu-text'>Meine Kontakte</p>
+          </a>
+          <a href='user.php?page=my_photos'>
+            <img src='./images/fotos.svg' alt='Meine Fotos'>
+            <p class='menu-text'>Meine Fotos</p>
+          <a href='user.php?page=settings'>
+            <img src='./images/settings.svg' alt='Einstellungen'>
+            <p class='menu-text'>Einstellungen</p>
+          </a>
+        </div>";
+        }
       }
-        ?>
-      
-     <!-- <a href="javascript:void(0);" class="menubutton" onclick="MobileMenu()"><img alt="Hamburger" src="images/hamburger.svg"></a> -->
+      ?>
 
-        <main>
+      <main>

@@ -1,12 +1,20 @@
 <?php
 
-//include_once("./classes/user_data.class.php");
-require_once("database.config.php");
-class All_Users_Data //extends User_Data
-{
+/*
+*   Laden der Daten für den Bereich 
+*   User: Meine Kontakte
+*   Admin: alle User
+*/
 
+require_once("./includes/database.config.php");
+class All_Users_Data
+{
+  //Tabellen
   protected $user_tab = "user";
   protected $login_tab = "login_data";
+  protected $contact_tab = "contactlist";
+
+  //Daten der User
   public $firstname = array();
   public $lastname = array();
   public $username = array();
@@ -14,21 +22,22 @@ class All_Users_Data //extends User_Data
   public $user_id = array();
   public $_login_date = array();
   public $data_length;
-  protected $_name_shorty = array();
-  protected $_card_Color = array("#cbc3d3", "#b6e6d2", "#cbcbcb", "#f4eab2", "#c6d7eb", "#e4d4ca");
+  protected $_contact_list = array();
 
- // function __construct() {}
 
+  //die Daten aller User mit Filtern laden
+  //Filter: Suche Eingabe, Suche in welchem Bereich und Sortiereihenfolge der Ergebnisse
   public function load_with_filter(
+    $cur_user_id,
     $search_area,
     $sort,
     $search_input
   )
   {
     $mysqli = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-    $sql = ("SELECT $this->user_tab.user_id, $this->user_tab.lastname, $this->user_tab.firstname, $this->user_tab.username, mail, login_date FROM $this->user_tab INNER JOIN $this->login_tab ON $this->user_tab.username = $this->login_tab.username WHERE $this->user_tab.$search_area LIKE ?  ORDER BY $sort");
+    $sql = ("SELECT $this->user_tab.user_id, $this->user_tab.lastname, $this->user_tab.firstname, $this->user_tab.username, mail, login_date FROM $this->user_tab INNER JOIN $this->login_tab ON $this->user_tab.username = $this->login_tab.username WHERE $this->user_tab.$search_area LIKE ? AND NOT $this->user_tab.user_id = $cur_user_id ORDER BY $sort");
     $stmt = $mysqli->prepare($sql);
-    $search_txt = "%" . $search_input . "%";
+    $search_txt = "%" . $search_input . "%"; //Suchparameter + % so dass dieser sowohl am anfang, als auch am ende vorkommen kann
     $stmt->bind_param("s", $search_txt);
 
     $stmt->execute();
@@ -36,78 +45,89 @@ class All_Users_Data //extends User_Data
     $stmt->bind_result($user_id, $lastname, $firstname, $username, $mail, $login_date);
     $stmt->store_result();
     if ($stmt->num_rows > 0)
-      while ($stmt->fetch()) {
+      while ($stmt->fetch()) { //die gefunden Daten in die jeweiligen Arrays speichern
         $this->user_id[] = $user_id;
         array_push($this->firstname, $firstname);
         array_push($this->lastname, $lastname);
         array_push($this->username, $username);
         array_push($this->mail, $mail);
-        // $formated_date = $this->format_date($login_date);
-        //array_push($this->_login_date, $formated_date);
         array_push($this->_login_date, $login_date);
       }
-    $this->data_length = count($this->user_id);
-    //$this->avatar();
+    $this->data_length = count($this->user_id); //Anzahl der Ergerbnisse zählen und speichern
 
     $stmt->close();
     $mysqli->close();
   }
 
-  // protected function avatar()
-  // {
-  //   $data_i = 0;
-  //   while ($data_i < $this->data_length) {
-  //     //Kürzel erstellen: ersten Buchstaben aus jedem Namensteil
-  //     $shorty = substr($this->firstname[$data_i], 0, 1) . substr($this->lastname[$data_i], 0, 1);
-  //     array_push($this->_name_shorty, $shorty);
-  //     $data_i++;
-  //     //return array($lastname, $firstname, $shorty);
-  //   }
-  // }
+  //Anzahl und Ids der Kontakte für die User Ansicht ermitteln
+  private function get_contact_list($user_id)
+  {
+    $mysqli = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
 
-  // protected function format_date($date)
-  // {
-  //   //array mit regulären Ausdrücken zum Umstellen des mit Now() erzeugten Datums: 
-  //   //(20)(zahl, 2-stellig)-(zahl, 1-2-stellig)-(zahl, 1-2-stellig)leerzeichen(zahl, 2-stellig):(zahl, 1-2-stellig):(zahl, 1-2-stellig)
-  //   $date_regex = '/(20)(\d{2})-(\d{1,2})-(\d{1,2})\s(\d{2}):(\d{1,2}):(\d{1,2})/';
-  //   $date_replace = '${4}.${3}.${1}${2} ${5}:${6} Uhr'; //array mit Ersatzsymbolen/zeichen: Angabe der nummerierten Ausdrücke, zuerst der 4., dann der 3. etc. der letzte wird weg gelassen, statt dessen "Uhr" eingefügt
-  //   $formated_date = preg_replace($date_regex, $date_replace, $date);
-  //   return $formated_date;
-  // }
+    //Abfrage der Anzahl an Spalten, die mit 'c' beginnen, da diese die Kontakte enthalten z.b. contact_id_3
+    $sql = ("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$this->contact_tab' and COLUMN_NAME like 'c%'");
+    $result = $mysqli->query($sql);
+    $column_info = $result->fetch_all();
+    $column_numb = count($column_info); //Speichern des Ergebnisses
+
+    //es werden so viele Ergebnisse geladen, wie in $column_numb gezählt wurden
+    //Zählvariable $data_numb beginnt mit 2, da in der Tabelle contactlist in der ersten Spalte die id und in der zweiten die eigene user_id steht
+    //die Kontakt-ids sind erst ab Spalte Nr. 3 'contact_id_1' abrufbar
+    $data_numb = 2;
+    if ($column_numb > 0) {
+      while ($data_numb < $column_numb) {
+        $sql = ("SELECT * FROM $this->contact_tab WHERE $this->contact_tab.user_id = $user_id");
+        $result = $mysqli->query($sql);
+        while ($user_row = $result->fetch_row()) {
+          array_push($this->_contact_list, $user_row[$data_numb]); //KOntak-Ids im array speichern
+        }
+        $data_numb++;
+      }
+
+      $this->data_length = count($this->_contact_list); //Anzahl der Ergebnisse zählen und speichern
+
+      $result->close();
+      $mysqli->close();
+    }
+  }
+
+  //die Daten der jeweiligen Kontakte des Users laden 
+  public function load_contact_data(
+    $cur_user_id,
+    //Id des eingeloggten Users
+    $sort, //Sortierreihenfolge der Ergebnisse
+  )
+  {
+    $this->user_id = $cur_user_id;
+    $this->get_contact_list($this->user_id);
+
+    $data_numb = 0;
+    if ($this->data_length > 0) {
+      while ($data_numb < $this->data_length) {
+        $contact_id = $this->_contact_list[$data_numb]; //Id des Kontaktes, zu dem die Daten im aktuellen Durchlauif der Schleife geladen werden sollen
+
+        $mysqli = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+        $sql = ("SELECT $this->user_tab.lastname, $this->user_tab.firstname, $this->user_tab.username, $this->user_tab.mail FROM $this->user_tab WHERE $this->user_tab.user_id = $contact_id");
+        $stmt = $mysqli->prepare($sql);
+
+        $stmt->execute();
+
+        $stmt->bind_result($lastname, $firstname, $username, $mail);
+        $stmt->store_result();
+        if ($stmt->num_rows > 0)
+          while ($stmt->fetch()) { //Speichern der Daten des Kontaktes im Array
+            array_push($this->firstname, $firstname);
+            array_push($this->lastname, $lastname);
+            array_push($this->username, $username);
+            array_push($this->mail, $mail);
+          }
+        $data_numb++;
+      }
+    }
+
+    $stmt->close();
+    $mysqli->close();
+  }
 }
 
-// class Show_All_Users extends All_Users_Data
-// {
-//   public function show_as_grid()
-//   {
-//     $col_i = 0;
-//     $data_i = 0;
-//     $col_length = count($this->_card_Color);
-//     if ($this->data_length > 0) {
-//       while ($data_i < $this->data_length) {
-//         if ($col_i > $col_length - 1) {
-//           $col_i = 0;
-//         }
-//         echo "<div class='user-data-box' style='background-color:" . $this->_card_Color[$col_i] . "'>
-//     <div class='card_avatar' style='color:" . $this->_card_Color[$col_i] . "'>" . $this->_name_shorty[$data_i] . "</div>
-//     <h3>" . $this->firstname[$data_i] . " " . $this->lastname[$data_i] . "</h3>
-//     <p>letzter Login:<br>" . $this->_login_date[$data_i] . "</p>
-//     <p>@" . $this->username[$data_i] . "</p>
-//     <a href='mailto: " . $this->mail[$data_i] . "'><img src='./images/mail.svg'>" . $this->mail[$data_i] . "</a>
-//     <form action='";
-//         echo linkTo("index.php?page=change_user");
-//         echo "' method='post' class='myForm'>
-//     <input type='hidden' name='user_id' value='"
-//           . $this->user_id[$data_i] . "'>
-//     <button type='submit' name='change' class='sort_button'>ändern</button>
-//      </form>
-//      </div>
-//      ";
-//         $col_i++;
-//         $data_i++;
-//       }
-//     } else
-//       echo "Keine Ergebnisse";
-//   }
-// }
 ?>

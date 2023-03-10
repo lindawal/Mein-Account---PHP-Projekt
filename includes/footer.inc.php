@@ -1,5 +1,5 @@
 <!-- Footer Template -->
-</div>
+
 </main>
 </div>
 
@@ -34,18 +34,7 @@
 </div>
 
 <!--ANCHOR Scripte-->
-<!-- jQ Library -->
-<script type="text/javascript" src="./lib/jquery-3.6.3.js"></script>
-<!-- nach oben Button -->
-<script type="text/javascript" src="./js/my-top-button.js"></script>
-<!-- verschiedene jQ Effekte -->
-<script type="text/javascript" src="./js/jQuery-effekte.js"></script>
-<!-- Vorschau-Box zu den Portfolio Themen 
-  <script type="text/javascript" src="./js/portfolio-viewbox.js"></script>-->
-<!-- <script type="text/javascript" src="./js/plugin.lightbox.js"></script> -->
-<!--Script für Mobile Navigation-->
-<script src="js/MobileMenu.js"></script>
-<!-- <script type="text/javascript" src="./js/form.js"></script> -->
+<script src="./js/admin.js"></script>
 </body>
 
 </html>
