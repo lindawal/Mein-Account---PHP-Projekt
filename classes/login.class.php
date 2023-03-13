@@ -5,8 +5,10 @@
  * 
  */
 
+ //bindet die benötigte Klasse ein
 include_once("./classes/user_data.class.php");
-require_once("./includes/database.config.php");
+//bindet die Datenbankkonfiguration ein
+include_once("./includes/database.config.php");
 class Login extends User_Data
 {
 

@@ -8,6 +8,7 @@
  *   Admin: User-Daten ändern/löschen
  */
 
+  //bindet die benötigte Klasse ein
 include_once("./classes/user_data.class.php");
 class User_Edit extends User_Data
 {

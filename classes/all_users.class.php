@@ -6,7 +6,7 @@
 *   Admin: alle User
 */
 
-require_once("./includes/database.config.php");
+include_once("./includes/database.config.php");
 class All_Users_Data
 {
   //Tabellen

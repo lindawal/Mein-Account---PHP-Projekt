@@ -3,9 +3,9 @@
 session_start();
 
 //Header einbinden
-include("./includes/header.inc.php");
+include_once("./includes/header.inc.php");
 
-include_once("./includes/dyn_Weiterleitung.inc.php");
+include_once("./includes/dyn_Weiterleitung.inc.php"); //bindet Hilfsfunktionen ein, die Weiterleitungen und Links dynamisch an die aktuelle URL anpassen 
 
 
 if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden ist
@@ -20,7 +20,7 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
         include_once("./includes/edit_user.inc.php");
       }
 
-      if ($_GET['page'] == 'delete_my_acount') {
+      if ($_GET['page'] == 'delete_my_account') {
         include_once("./includes/delete_user.inc.php");
       }
 
@@ -36,10 +36,7 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
   } else
     weiterleiten("admin.php");
 } else {
-  /***
-  Wenn noch kein Login statt fand, dann Weiterleitung zur Login-Seite
-  ***/
-  //if (!isset($_GET['page'])) {
+  // Wenn noch kein Login statt fand, dann Weiterleitung zur Login-Seite
   weiterleiten("index.php?page=login");
 
 }
@@ -47,5 +44,5 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
 
 <?php
 //Footer einbinden
-include("./includes/footer.inc.php");
+include_once("./includes/footer.inc.php");
 ?>

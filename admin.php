@@ -3,9 +3,9 @@
 session_start();
 
 //Header einbinden
-include("./includes/header.inc.php");
+include_once("./includes/header.inc.php");
 
-include_once("./includes/dyn_Weiterleitung.inc.php");
+include_once("./includes/dyn_Weiterleitung.inc.php"); //bindet Hilfsfunktionen ein, die Weiterleitungen und Links dynamisch an die aktuelle URL anpassen 
 
 
 if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden ist
@@ -64,5 +64,5 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
 
 <?php
 //Footer einbinden
-include("./includes/footer.inc.php");
+include_once("./includes/footer.inc.php");
 ?>

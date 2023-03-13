@@ -6,6 +6,7 @@
  *   Admin: neuen User anlegen
  */
 
+ //bindet die benötigte Klasse ein
 include_once("./classes/user_data.class.php");
 
 class New_Member extends User_Data

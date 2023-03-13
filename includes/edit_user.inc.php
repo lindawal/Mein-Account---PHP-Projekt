@@ -1,16 +1,18 @@
 <?php
 
+//bindet Hilfsfunktionen ein, die Weiterleitungen und Links dynamisch an die aktuelle URL anpassen 
 include_once("./includes/dyn_Weiterleitung.inc.php");
+//bindet die benötigten Klassen ein
 include_once("./classes/user_edit.class.php");
 include_once("./classes/formular.class.php");
 
-
+//Laden des Templates mit der Übersicht der Daten des aktuell eingeloggten Users
 include_once("my-data.inc.php");
 
 //Bereich zum Ändern der User Daten
 echo "<div class='user_area_card'><h2 class='user-section-header'>Nutzerdaten ändern</h2>";
 
-//KLasse User_Edit laden und user ID übergeben
+//KLasse User_Edit laden und User ID übergeben
 $user_id = $_SESSION["user_id"];
 $cur_user = new User_Edit($user_id);
 
@@ -56,24 +58,26 @@ if (isset($_POST["safe_changes"])) {
 }
 
 //Formular zum Ändern der Daten anzeigen
-
-
-
-
 echo "<form method='post' class='userdataform'>";
+//Daten des aktuell eingeloggten Users laden und an das neue Formular-Objekt übergeben
 $cur_user->load_data($user_id);
 $edit_user_form = new Form($cur_user);
+
+//Formularfelder mit den Nutzerdaten
 $edit_user_form->input_fields('firstname', 'lastname', 'username');
 $edit_user_form->input_mail();
 $edit_user_form->input_password();
+//ein verstecktes Feld mit der User ID ist mit jedem Button verbunden, so dass diese bei jeder Aktion übertragen wird
 $edit_user_form->input_hidden_id();
+//Bestätigungsbutton
 echo "<input type='submit' name='safe_changes' value='speichern' class='change_user_Btn'>
     <input type='reset' class='change_user_Btn'>
-    </form>
-    <form action='";
+    </form>";
+//Löschen-Button
+echo "<form action='";
 echo linkTo(get_filename($_SERVER['PHP_SELF']), "?page=delete_my_account");
 echo "' method='post' class='userdataform'>
-            <input type='submit' name='confirm_del_user' value='Account löschen' class='change_user_Btn'>";
+      <input type='submit' name='confirm_del_user' value='Account löschen' class='change_user_Btn'>";
 $edit_user_form->input_hidden_id();
 echo "</form>";
 

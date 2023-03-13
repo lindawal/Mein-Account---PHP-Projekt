@@ -3,9 +3,9 @@
 session_start();
 
 //Header einbinden
-include("./includes/header.inc.php");
+include_once("./includes/header.inc.php");
 
-include_once("./includes/dyn_Weiterleitung.inc.php");
+include_once("./includes/dyn_Weiterleitung.inc.php"); //bindet Hilfsfunktionen ein, die Weiterleitungen und Links dynamisch an die aktuelle URL anpassen 
 
 
 if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden ist
@@ -29,13 +29,13 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
   }
   if (isset($_GET['page'])) {
     if ($_GET['page'] == 'login') {
-      include("./includes/login.inc.php");
+      include_once("./includes/login.inc.php");
     }
     if ($_GET['page'] == 'password_reset') {
-      include("./includes/change_pw.inc.php");
+      include_once("./includes/change_pw.inc.php");
     }
     if ($_GET['page'] == 'signup') {
-      include("./includes/signup.inc.php");
+      include_once("./includes/signup.inc.php");
     }
   }
 }
@@ -43,5 +43,5 @@ if (isset($_SESSION["name"])) { //prüfen, ob eine benannte Session vorhanden is
 
 <?php
 //Footer einbinden
-include("./includes/footer.inc.php");
+include_once("./includes/footer.inc.php");
 ?>

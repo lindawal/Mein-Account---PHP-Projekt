@@ -2,15 +2,14 @@
 <hr>
 <div class='login_area'>
 
-  <div class='login_card'> 
+  <div class='login_card'>
 
     <?php
-    /***
-    Login-Daten prüfen
-    ***/
-
+    //Login-Daten prüfen
+    
     if ((isset($_POST["username"])) && (isset($_POST["password"]))) { //wenn Daten ins Loginformular eingegeben und versendet wurden, startet die Abfrage, ob diese richtig sind mit der Funktion "verify" aus der Class login class_login.php
-      include("./classes/login.class.php");
+      //bindet die benötigte Klasse ein
+      include_once("./classes/login.class.php");
       $login = new login($_POST["username"], $_POST["password"]);
       if (
         $login->verify()
@@ -42,12 +41,13 @@
       <input type='password' placeholder='Passwort' name='password'>
       <input type='Submit' value='Login'>
     </form>
+
     <a href='
-<?PHP echo linkTo("index.php", "?page=password_reset"); ?>
-'>Passwort vergessen?</a></p>
+    <?PHP echo linkTo("index.php", "?page=password_reset"); ?>
+    '>Passwort vergessen?</a></p>
 
     <br>Noch keine Zugangsdaten?
     <a href='
-<?PHP echo linkTo("index.php", "?page=signup"); ?>
-'>Zur Registrierung gehts hier entlang...</a>
+    <?PHP echo linkTo("index.php", "?page=signup"); ?>
+    '>Zur Registrierung gehts hier entlang...</a>
   </div>

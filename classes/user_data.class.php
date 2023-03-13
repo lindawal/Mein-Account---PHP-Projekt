@@ -8,7 +8,7 @@
  *
  */
 
-require_once("./includes/database.config.php");
+include_once("./includes/database.config.php");
 class User_Data
 {
   //Tabellen

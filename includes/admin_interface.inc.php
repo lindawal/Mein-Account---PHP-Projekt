@@ -1,8 +1,11 @@
 <?PHP
-/**  ANCHOR Filteroptionen
+
+/** Hauptseite im Adminbereich mit der Übersicht aller User und den Filteroptionen
  ***/
+
 if (isset($_SESSION["name"])) {
   if ($_SESSION["admin"] == true) {
+
     $search_input = ""; //Suchparameter standartmäßig auf leeren String setzen
     if (isset($_GET["search"])) { //wenn Suchparameter gesendet wurde diesen umwandeln
       $search_input = htmlentities($_GET["search"]);
@@ -20,9 +23,9 @@ if (isset($_SESSION["name"])) {
 
     //Formular zum Angeben der Suchparameter
     echo "<form action='admin.php' method='get' class='myForm'>
-  <div class='filter_box'>
-      <fieldset class='my-radio'>
-      <p><input type='radio' name='search_area' value='lastname'";
+        <div class='filter_box'>
+        <fieldset class='my-radio'>
+        <p><input type='radio' name='search_area' value='lastname'";
     if ($search_area == "lastname") {
       echo " checked='checked'";
     }
@@ -77,8 +80,8 @@ if (isset($_SESSION["name"])) {
       </select>
       </form>";
 
-    //Datei einbinden um Daten aus der Datenbank zu laden ->
-//als Variablen werden die Suchparameter gesendet
+    //Klassen einbinden um Daten aus der Datenbank zu laden
+    //als Variablen werden die Suchparameter gesendet
     include_once("./classes/all_users.class.php");
     include_once("./classes/view.class.php");
     $all_users = new All_Users_Data();
@@ -91,10 +94,11 @@ if (isset($_SESSION["name"])) {
     echo $all_users->data_length . " Ergebnisse" .
       "<div class='all-users'>";
 
+    //das Objekt All_Users wird als Parameter in das View Objekt gegeben, um die Daten der User zu laden
     $all_users_view = new All_Users_View($all_users);
 
     $all_users_view->show_as_grid();
-    echo  "</div>";
+    echo "</div>";
   } else
     echo "<br><br><h3>Zugriff nicht erlaubt</h3>";
 }

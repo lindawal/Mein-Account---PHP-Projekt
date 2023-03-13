@@ -10,6 +10,7 @@
   <meta name="description" content="PHP">
   <title>PHP Projekt: Mein Account</title>
   <link href="./css/account-style.css" rel="stylesheet">
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
   <link rel="icon" href="/favicon.png" type="image/png">
   <!-- favicon.ico im Stammverzeichnis, aber nicht verlinkt -->
@@ -27,57 +28,57 @@
       <div class='myname'>
         <div>
 
-
           <?PHP
 
           if (isset($_SESSION["name"])) {
+
+            //bindet die benötigte Klasse ein
+            include_once("./classes/view.class.php");
+            $cur_user_view = new View();
+
             if ($_SESSION["admin"] == false) {
-              /***
-              Infos zum Login anzeigen
-              ***/
-              include_once("./classes/view.class.php");
-              $cur_user_view = new View();
+
               //Namen und Avatar anzeigen
-              $avatar = $cur_user_view->avatar($_SESSION["firstname"], $_SESSION["lastname"]);
-              echo "<div><div class='avatar'>" . $avatar . "</div> " . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</div></div>" .
-                "<div><form action='logout.php'>
-        <button type='submit' name='logout'>Logout</button>
-        </form>";
+              $avatar = $cur_user_view->get_avatar_symbol($_SESSION["firstname"], $_SESSION["lastname"]);
+              echo $avatar;
+              echo "</div><div><form action='logout.php'>
+                <button type='submit' name='logout'>Logout</button>
+                </form>";
             }
+
             if ($_SESSION["admin"] == true) {
-              /***
-              Infos zum Login anzeigen
-              ***/
+
+              //Zugriffszähler anzeigen
               if (isset($_SESSION["z"])) // Zugriffszähler existiert
                 $_SESSION["z"] = $_SESSION["z"] + 1;
               else
                 $_SESSION["z"] = 1; //Zugriffszähler ist neu
               echo "<div class='myname'><div> Anzahl Seitenaufrufe: " . $_SESSION["z"] . "<br>";
 
-              include_once("./classes/view.class.php");
-              $cur_user_view = new View();
               //Datum formatieren
               $get_login_date = $cur_user_view->format_date($_SESSION["date"]);
               echo "Login: " . $get_login_date .
                 "<br>";
               //Namen und Avatar anzeigen
-              $avatar = $cur_user_view->avatar($_SESSION["firstname"], $_SESSION["lastname"]);
-              echo "<div><div class='avatar'>" . $avatar . "</div> " . $_SESSION["firstname"] . " " . $_SESSION["lastname"] . "</div></div>" .
+              $avatar = $cur_user_view->get_avatar_symbol($_SESSION["firstname"], $_SESSION["lastname"]);
+              echo $avatar;
+              echo "</div>" .
                 "<div><form action='logout.php'>
-        <button type='submit' name='logout' class='header_button'>Logout</button>
-        </form></div></div>";
+               <button type='submit' name='logout' class='header_button'>Logout</button>
+               </form></div></div>";
             }
           }
-
-
           ?>
+
         </div>
       </div>
     </div>
     <div class="main-area">
+
       <?PHP
 
       if (isset($_SESSION["name"])) {
+        //Admin-Menü
         if ($_SESSION["admin"] == true) {
           echo "
         <div class='menu'>
@@ -97,13 +98,9 @@
             <img src='./images/account_circle.svg' alt='Mein Account'>
             <p class='menu-text'>Mein Account</p>
           </a>
-          
-          <a href='admin.php'>
-            <img src='./images/fotos.svg' alt='Meine Fotos'>
-            <p class='menu-text'>Meine Fotos</p>
-          </a>
         </div>";
         }
+        //User-Menü
         if ($_SESSION["admin"] == false) {
           echo "
         <div class='menu'>
@@ -119,9 +116,6 @@
             <img src='./images/contacts.svg' alt='Meine Kontakte'>
             <p class='menu-text'>Meine Kontakte</p>
           </a>
-          <a href='user.php?page=my_photos'>
-            <img src='./images/fotos.svg' alt='Meine Fotos'>
-            <p class='menu-text'>Meine Fotos</p>
           <a href='user.php?page=settings'>
             <img src='./images/settings.svg' alt='Einstellungen'>
             <p class='menu-text'>Einstellungen</p>

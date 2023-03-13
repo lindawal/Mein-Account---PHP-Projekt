@@ -6,7 +6,8 @@
  *   Registrierung neuer Nutzer
  */
 
-include_once("./classes/user_data.class.php");
+//bindet die benötigte Klasse ein
+//include_once("./classes/user_data.class.php");
 class Form
 {
   protected $firstname;
@@ -50,7 +51,7 @@ class Form
   function input_hidden_id()
   {
     echo "<input type='hidden' name='user_id' value='"
-      . $this->user_id . " ' required='required'>";
+      . $this->user_id . " ' >";
   }
   //disabled Felder in denen die Daten nur angezeigt, aber nicht geändert werden können
   function input_disabled($firstname = "", $lastname = "", $username = "", $mail = "")

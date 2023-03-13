@@ -7,7 +7,8 @@
  *   Admin: alle User
  */
 
-include_once("./classes/user_data.class.php");
+//bindet die benötigte Klasse ein
+//include_once("./classes/user_data.class.php");
 
 class View
 {
@@ -21,12 +22,21 @@ class View
   protected $_name_shorty = array();
 
   //das kürzel für den Avatar erstellen
-  public function avatar($firstname, $lastname)
+  protected function avatar_shorty($firstname, $lastname)
   {
     //Kürzel erstellen: ersten Buchstaben aus jedem Namensteil
     $shorty = substr($firstname, 0, 1) . substr($lastname, 0, 1);
     return $shorty;
   }
+
+  public function get_avatar_symbol($firstname, $lastname)
+  {
+    $avatar = $this->avatar_shorty($firstname, $lastname);
+    $avatar_symbol = "<div><div class='avatar'>" . $avatar . "</div> " . $firstname . " " . $lastname . "</div>";
+
+    return $avatar_symbol;
+  }
+
 
   //das unformatierte Datum aus der Now() Funktion umstellen
   public function format_date($date)
@@ -62,12 +72,12 @@ class All_Users_View extends View
     $this->user_id = $this->load_data->user_id;
   }
 
-  private function avatar_to_array()
+  private function avatar_shorty_to_array()
   {
     $i = 0;
     while ($i < $this->data_length) {
       //Kürzel erstellen: ersten Buchstaben aus jedem Namensteil
-      $shorty = $this->avatar($this->firstname[$i], $this->lastname[$i]);
+      $shorty = $this->avatar_shorty($this->firstname[$i], $this->lastname[$i]);
       array_push($this->_name_shorty, $shorty);
       $i++;
     }
@@ -86,7 +96,7 @@ class All_Users_View extends View
   //die Ansicht mit den Daten zu allen Usern wird erstellt
   public function show_as_grid()
   {
-    $this->avatar_to_array();
+    $this->avatar_shorty_to_array();
     $this->date_to_array();
 
     $col_numb = 0; //Nummerierung der HG-Farbe
@@ -122,7 +132,7 @@ class All_Users_View extends View
   //die Ansicht mit den Daten zu allen Kontakten wird erstellt
   public function contacts_as_grid()
   {
-    $this->avatar_to_array();
+    $this->avatar_shorty_to_array();
 
     $col_numb = 0;
     $data_numb = 0;
