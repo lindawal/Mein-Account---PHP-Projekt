@@ -11,8 +11,8 @@
   <title>PHP Projekt: Mein Account</title>
   <link href="./css/account-style.css" rel="stylesheet">
 
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
-  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" sizes="any">
+    <link rel="icon" type="images/png" href="images/favicon.png" >
   <!-- favicon.ico im Stammverzeichnis, aber nicht verlinkt -->
 
 </head>
