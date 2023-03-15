@@ -33,7 +33,7 @@
 </div>
 
 <!--ANCHOR Scripte-->
-<script src="./js/admin.js"></script>
+<script src="./js/reset_page.js"></script>
 </body>
 
 </html>
