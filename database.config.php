@@ -7,4 +7,5 @@
  define('MYSQL_PASSWORD', '');
  define('MYSQL_DATABASE', 'portfolio_gallery');
 
+ 
 ?>
